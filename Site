@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaTech — Oyun & Teknoloji</title>
+
+    <meta name="description"
+          content="Modern oyun topluluğu ve teknoloji portföyü.">
+
+    <style>
+        /* =========================
+           TEMEL AYARLAR
+        ========================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg: #08090d;
+            --bg2: #10121a;
+            --card: rgba(255,255,255,0.055);
+            --card-hover: rgba(255,255,255,0.09);
+            --text: #f5f7ff;
+            --muted: #9da3b4;
+            --primary: #7c5cff;
+            --primary2: #00d4ff;
+            --border: rgba(255,255,255,0.09);
+            --shadow: 0 20px 60px rgba(0,0,0,0.35);
+        }
+
+        body.light {
+            --bg: #f4f6fb;
+            --bg2: #ffffff;
+            --card: rgba(0,0,0,0.045);
+            --card-hover: rgba(0,0,0,0.08);
+            --text: #11131a;
+            --muted: #626979;
+            --border: rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(124,92,255,0.16), transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(0,212,255,0.10), transparent 28%),
+                var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background .3s, color .3s;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(18px);
+            background: rgba(8,9,13,0.7);
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.light header {
+            background: rgba(255,255,255,0.75);
+        }
+
+        .nav {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: .95rem;
+            transition: .25s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn,
+        .menu-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .icon-btn:hover,
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            background: var(--card-hover);
+        }
+
+        .menu-btn {
+            display: none;
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            align-items: center;
+            gap: 70px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: var(--card);
+            color: var(--muted);
+            font-size: .85rem;
+            margin-bottom: 22px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #35e875;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #35e875;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.7rem, 7vw, 5.5rem);
+            line-height: .98;
+            letter-spacing: -4px;
+            margin-bottom: 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--primary2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: .25s;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #5c3de6);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 30px rgba(124,92,255,.25);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-card {
+            position: relative;
+            min-height: 390px;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            background:
+                linear-gradient(145deg, rgba(124,92,255,.17), transparent 55%),
+                var(--card);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orb {
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 30%, white, #9d88ff 10%, #643cff 35%, transparent 68%);
+            filter: blur(1px);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .hero-card::before,
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+        }
+
+        .hero-card::before {
+            width: 330px;
+            height: 330px;
+        }
+
+        .hero-card::after {
+            width: 430px;
+            height: 430px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-15px) scale(1.04);
+            }
+        }
+
+
+        /* =========================
+           SECTION
+        ========================== */
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            margin-bottom: 45px;
+        }
+
+        .section-title small {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(2rem, 5vw, 3.3rem);
+            letter-spacing: -2px;
+            margin-top: 8px;
+        }
+
+        .section-title p {
+            color: var(--muted);
+            max-width: 600px;
+            margin-top: 10px;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================== */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--card);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover);
+            border-color: rgba(124,92,255,.35);
+            box-shadow: var(--shadow);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: rgba(124,92,255,.14);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: .95rem;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================== */
+
+        .about {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-box {
+            min-height: 320px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background:
+                linear-gradient(145deg, rgba(0,212,255,.1), transparent),
+                var(--card);
+            display: grid;
+            place-items: center;
+            font-size: 5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .about-content p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 35px;
+            margin-top: 25px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.7rem;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: .85rem;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================== */
+
+        .contact-wrapper {
+            max-width: 760px;
+            margin: auto;
+            padding: 35px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background: var(--card);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: .9rem;
+            color: var(--muted);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: rgba(0,0,0,.12);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 13px 15px;
+            outline: none;
+            transition: .25s;
+        }
+
+        body.light .form-group input,
+        body.light .form-group textarea {
+            background: rgba(255,255,255,.7);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124,92,255,.12);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(53,232,117,.1);
+            color: #35e875;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 0;
+            color: var(--muted);
+            text-align: center;
+        }
+
+
+        /* =========================
+           SCROLL ANIMATION
+        ========================== */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================
+           MOBİL
+        ========================== */
+
+        @media (max-width: 850px) {
+
+            .nav-links {
+                position: absolute;
+                top: 72px;
+                left: 4%;
+                width: 92%;
+                padding: 20px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+                background: rgba(12,14,20,.96);
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-10px);
+                transition: .25s;
+            }
+
+            body.light .nav-links {
+                background: rgba(255,255,255,.96);
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .nav-links a:hover {
+                background: var(--card);
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-card {
+                min-height: 280px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-box {
+                min-height: 230px;
+            }
+
+            .stats {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            section {
+                padding: 75px 0;
+            }
+
+            .contact-wrapper {
+                padding: 22px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header>
+        <div class="container nav">
+
+            <a href="#home" class="logo">
+                Nova<span>Tech</span>
+            </a>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#projects">Projeler</a></li>
+                    <li><a href="#about">Hakkında</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" id="themeBtn" title="Temayı değiştir">
+                    ☀
+                </button>
+
+                <button class="menu-btn" id="menuBtn" title="Menüyü aç">
+                    ☰
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="container hero-grid">
+
+                <div class="reveal">
+
+                    <div class="badge">
+                        <span class="status-dot"></span>
+                        Şu anda aktif
+                    </div>
+
+                    <h1>
+                        Oyun,
+                        <span class="gradient-text">teknoloji</span>
+                        ve yaratıcılık.
+                    </h1>
+
+                    <p>
+                        Modern projeler, oyun toplulukları ve teknoloji
+                        içerikleri üreten kişisel bir platform.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            Projeleri Gör →
+                        </a>
+
+                        <a href="#contact" class="btn btn-secondary">
+                            İletişime Geç
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="hero-card reveal">
+                    <div class="orb"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PROJECTS
+        ========================== -->
+
+        <section id="projects">
+
+            <div class="container">
+
+                <div class="section-title reveal">
+                    <small>Projeler</small>
+                    <h2>Üzerinde çalıştıklarım.</h2>
+                    <p>
+                        Oyun, web ve teknoloji alanındaki bazı projeler.
+                    </p>
+                </div>
+
+                <div class="cards">
+
+                    <article class="card reveal">
+                        <div class="card-icon">🎮</div>
+                        <h3>Gaming Community</h3>
+                        <p>
+                            Oyuncuların bir araya geldiği modern ve aktif
+                            bir oyun topluluğu platformu.
+                        </p>
+                    </article>
+
+                    <article class="card reveal">
+                        <div class="card-icon">💻</div>
+                        <h3>Web Projects</h3>
+                        <p>
+                            Hızlı, responsive ve modern arayüzlere sahip
+                            web projeleri.
+                        </p>
+                    </article>
+
+                    <article class="card reveal">
+                        <div class="card-icon">⚡</div>
+                        <h3>Tech Blog</h3>
+                        <p>
+                            Oyunlar, bilgisayarlar, yazılım ve teknoloji
+                            hakkında içerikler.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section id="about">
+
+            <div class="container about">
+
+                <div class="about-box reveal">
+                    ⚡
+                </div>
+
+                <div class="about-content reveal">
+
+                    <div class="section-title">
+                        <small>Hakkında</small>
+                        <h2>Dijital dünyada üret.</h2>
+                    </div>
+
+                    <p>
+                        Burası kişisel portföy, oyun topluluğu veya teknoloji
+                        blogu olarak kullanılabilecek şekilde tasarlanmıştır.
+                    </p>
+
+                    <p>
+                        HTML, CSS ve JavaScript kullanılarak hazırlanmıştır.
+                        Harici bir kütüphane veya kurulum gerektirmez.
+                    </p>
+
+                    <div class="stats">
+
+                        <div class="stat">
+                            <strong>10+</strong>
+                            <span>Proje</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>5K+</strong>
+                            <span>Topluluk</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>24/7</strong>
+                                           <span>Destek</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section id="contact">
+
+            <div class="container">
+
+                <div class="contact-wrapper reveal">
+
+                    <div class="section-title">
+                        <small>İletişim</small>
+                        <h2>Bize ulaşın.</h2>
+                        <p>
+                            Soru, görüş veya iş birliği için mesaj gönderebilirsiniz.
+                        </p>
+                    </div>
+
+                    <form id="contactForm">
+
+                        <div class="form-group">
+                            <label for="name">Adınız</label>
+                            <input type="text" id="name" placeholder="Adınız Soyadınız" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-posta</label>
+                            <input type="email" id="email" placeholder="ornek@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Mesajınız</label>
+                            <textarea id="message" placeholder="Mesajınızı buraya yazın..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Mesaj Gönder
+                        </button>
+
+                        <div class="form-message" id="formMessage">
+                            Mesajınız başarıyla gönderildi!
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+        <div class="container">
+            <p>© 2026 NovaTech. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+        // Tema Değiştirme
+        const themeBtn = document.getElementById('themeBtn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            themeBtn.textContent = document.body.classList.contains('light') ? '🌙' : '☀';
+        });
+
+        // Mobil Menü
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Scroll Animasyonu (Reveal)
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const triggerBottom = window.innerHeight * 0.85;
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < triggerBottom) {
+                    el.classList.add('show');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // İletişim Formu Simülasyonu
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formMessage.style.display = 'block';
+            contactForm.reset();
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 4000);
+        });
+    </script>
+
+</body>
+</html>
